@@ -8,10 +8,51 @@ This repository preserves the original source code. It is published as a histori
 
 1. **Tweet collection.** A Perl script collected tweets mentioning each tracked company and saved them as daily CSV files.
 2. **Feature construction (Excel VBA).** A set of macros imported the daily files, estimated tweet counts, normalized each company's count by the total tweet volume for the day, and shifted tweet times so that only tweets posted before the market opened counted toward that day. Weekend activity was folded into the next trading day. The macros then joined the counts with daily prices and built the model inputs: close minus open, the day's range, today's open minus yesterday's close, normalized volume, the ratio of tweet count to volume, interaction terms, and up to 20 days of lagged tweet counts and price fields. The target label was U, D or N.
-3. **Prediction (Java and Weka).** A Java program read the training table from a MySQL database, trained a Weka J48 decision tree, classified the current day, and wrote the prediction and the latest price back to the database at about 8:30 a.m. New York time.
-4. **Delivery (mobile app).** A PhoneGap app for Android and iPhone read the prediction table and showed an up, down or no-change forecast for each stock. Free and paid versions differed in the number of stocks and days per week a user could view.
+3. **Model selection (Weka).** Many classifiers were compared on each stock, including Bayesian networks, J48 decision trees, logistic model trees, JRip rule learners, LogitBoost, MultiBoostAB and bagging, across different training periods and feature sets.
+4. **Prediction (Java and Weka).** A Java program read the training table from a MySQL database, trained the model, classified the current day, and wrote the prediction and the latest price back to the database at about 8:30 a.m. New York time. The first automated version used a Weka J48 decision tree.
+5. **Delivery (mobile app).** A PhoneGap app for Android and iPhone read the prediction table and showed an up, down or no-change forecast for each stock. Free and paid versions differed in the number of stocks and days per week a user could view.
 
-Stocks tracked at various times included Sony (Tokyo, 6758), Coca-Cola, Disney, Groupon, Microsoft, Verizon, Walmart and Yahoo.
+Stocks tracked at various times included Sony (Tokyo, 6758), Toyota (Tokyo), Coca-Cola, Ford, Disney, Groupon, Microsoft, Verizon, Walmart and Yahoo.
+
+### Model inputs
+
+The final Sony training table had 94 columns. Social-media volume was one input among many.
+
+| Group | Columns |
+|---|---|
+| Tweet counts: current day and lags of 1 to 20 days | 21 |
+| Open, close, high and low prices, each lagged 1 to 10 days | 40 |
+| Close-minus-open spread, lagged 1 to 9 days | 9 |
+| Today's open minus yesterday's close, lagged 1 to 10 days | 10 |
+| Interaction terms combining counts, prices, the market index and date | 5 |
+| Other lagged market fields: volume, NYSE change, count-to-volume ratio, normalized volume, daily range | 5 |
+| Date, data-quality flag and the U/D/N label | 4 |
+
+## Results
+
+The strongest tests were run in 2011. Each model was trained only on data through December 31, 2010, and was not retrained. It then forecast every trading day from January 3 to August 2011. Test end dates were fixed in advance to avoid choosing favorable periods, and social-media inputs were cut off at least two hours before the market opened.
+
+| Stock | Trading days forecast | Correct | Baseline: always guess the most common direction | Probability of doing this well by chance |
+|---|---|---|---|---|
+| Sony (Tokyo) | 159 | 60.4% | 53.5% | about 5% |
+| Toyota (Tokyo) | 159 | 58.5% | 50.9% | about 3% |
+| Coca-Cola | 159 | 57.2% | 51.6% | about 9% |
+| Ford | 159 | 59.7% | 57.9% | about 35% |
+| **All four combined** | **636** | **59.0%** | **53.5%** | **about 0.3%** |
+
+Shorter fixed-model tests gave the following results:
+
+| Test | Trading days | Correct |
+|---|---|---|
+| Sony, from June 9, 2011 | 55 | 65.5% |
+| Toyota, from June 9, 2011 | 55 | 63.6% |
+| Coca-Cola, from July 21, 2011 | 25 | 76% |
+| Ford, from July 21, 2011 | 25 | 72% |
+| Disney, June to August 2011 | about 50 | 66% |
+
+Holdout tests of 10, 20 and 45 trading days were also run for Coca-Cola, Toyota, Sony, Verizon and Ford.
+
+The results measure the accuracy of direction forecasts. They do not account for trading costs or the size of price moves.
 
 ## Contents
 
