@@ -4,6 +4,34 @@ InsiderMiner was a stock forecasting system built between 2010 and 2014 by Willi
 
 This repository preserves the original source code. It is published as a historical record and is not maintained.
 
+<p align="center"><img src="images/insiderminer-logo.png" width="480" alt="InsiderMiner logo"></p>
+
+## The app
+
+<p align="center">
+  <img src="images/app-history-2013.png" width="270" alt="InsiderMiner app, prediction history, March 2013">
+</p>
+
+*The Android app's prediction history screen, March 7, 2013. Each row shows the stock, its symbol, the forecast for the day (U for up, D for down) and the prior day's close. Stocks outside the user's subscription show an upgrade link.*
+
+<p align="center">
+  <img src="images/forecast-explained.png" width="600" alt="How to read an InsiderMiner forecast">
+</p>
+
+*From the 2014 promotional video: how to read a forecast.*
+
+<p align="center">
+  <img src="images/app-predictions-2014.png" width="600" alt="InsiderMiner predictions screen, December 2014">
+</p>
+
+*Daily predictions as shown in the app, December 2014.*
+
+<p align="center">
+  <img src="images/app-accuracy-screen.png" width="600" alt="InsiderMiner accuracy screen">
+</p>
+
+*The app's accuracy screen. Users could choose a number of past days and see up, down and overall accuracy for each stock.*
+
 ## How the system worked
 
 1. **Tweet collection.** A Perl script collected tweets mentioning each tracked company and saved them as daily CSV files.
