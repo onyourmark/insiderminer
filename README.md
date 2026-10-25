@@ -1,6 +1,6 @@
 # InsiderMiner
 
-InsiderMiner was a stock forecasting system built between 2010 and 2014 by William B. Claster, co-founder, CTO and chief scientist. Each trading morning it predicted whether a stock would close up, down or unchanged, using the volume of social-media discussion about the company together with recent price behavior. The predictions were published through Android and iPhone apps.
+InsiderMiner was a stock forecasting system built between 2010 and 2014 by William B. Claster, co-founder, CTO and chief scientist. Each trading morning it predicted whether a stock would close up, down or unchanged, using Twitter sentiment and tweet-volume data about the company together with recent price behavior. The project began as a study of whether Twitter sentiment could forecast stock movements, and tweet volume was used as one of the sentiment inputs. The predictions were published through Android and iPhone apps.
 
 This repository preserves the original source code. It is published as a historical record and is not maintained.
 
@@ -44,7 +44,7 @@ Stocks tracked at various times included Sony (Tokyo, 6758), Toyota (Tokyo), Coc
 
 ### Model inputs
 
-The final Sony training table had 94 columns. Social-media volume was one input among many.
+The final Sony training table had 94 columns. Social-media data was one group of inputs among many.
 
 | Group | Columns |
 |---|---|
